@@ -1,0 +1,15 @@
+name = "pro-discount"
+type = "product_discounts"
+api_version = "2023-07"
+
+[input.variables]
+namespace = "$app:custom-discount"
+key = "function-configuration"
+
+[build]
+command = ""
+path = "dist/function.wasm"
+
+[ui.paths]
+create = "/discounts/:functionId/new"
+details = "/discounts/:functionId/:id"

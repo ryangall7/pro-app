@@ -1,0 +1,27 @@
+query Input ($customerTag: String!, $collections: [ID!]) {
+  cart {
+    buyerIdentity {
+      customer {
+        id
+        hasAnyTag(tags: [$customerTag])
+      }
+    }
+    lines {
+      merchandise {
+        __typename
+        ...on ProductVariant {
+          id
+          product {
+            isGiftCard
+            inAnyCollection(ids: $collections)
+          }
+        }
+      }
+    }
+  }
+  discountNode {
+    metafield(namespace: "$app:custom-discount", key: "function-configuration") {
+      value
+    }
+  }
+}

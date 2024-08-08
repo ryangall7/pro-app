@@ -1,0 +1,217 @@
+<pro-application-section id="pro-application-template" class="section section--vip-form pro-application" data-section-id="{{ section.id }}">
+    <div class="max-w-screen-md py-16 mx-auto">
+
+        {%- capture status -%}
+            {%- for tag in customer.tags -%}
+                {%- if tag == "pro-app-status:pending" -%}
+                    <span class="text-sm uppercase rounded-full py-2 px-5 bg-orange-400 text-white font-bold">Pending</span>
+                {%- elsif tag == "pro-app-status:approved" -%}
+                    <span class="text-sm uppercase rounded-full py-2 px-5 bg-emerald-500 text-white font-bold">Approved</span>
+                {%- elsif tag == "pro-app-status:expired" -%}
+                    <span class="text-sm uppercase rounded-full py-2 px-5 bg-amber-700 text-white font-bold">Expired</span>
+                {%- endif -%}
+            {%- endfor -%}
+        {%- endcapture -%}
+
+        {%- unless block.settings.heading == blank -%}
+            <h2 class="h2">{{ block.settings.heading }} {{ status }}</h2>
+        {%- endunless -%}
+
+        {%- if customer -%}
+            <div class="rte mb-4">
+                {{ block.settings.instructions }}
+            </div>
+
+            <pro-application>
+                <div id="form-submit-success" class="pro-application__note form-success" style="display: none;">{{ block.settings.posted-successfully }}</div>
+
+                <form id="ProApplicationForm" action="/apps/pros/pro-app" method="POST">
+
+                    <div class="pro-app__form-input-container">
+                        <label for="ProApplicationName">{{ 'pro-application.form.name' | t }}</label>
+                        <input type="text" id="ProApplicationName" name="name" value="{{ customer.name }}"  class="block pro-app__input w-full" readonly>
+                    </div>
+
+                    <div class="pro-app__form-input-container">
+                        <label for="ProApplicationEmail" readonly>{{ 'pro-application.form.email' | t }}</label>
+                        <input type="email" id="ProApplicationEmail" name="email" autocorrect="off" autocapitalize="off" value="{{ customer.email }}" class="block pro-app__input w-full" readonly>
+                    </div>
+
+                    <div id="ProApplicationInputsLoading" role="status" class="animate-pulse">
+                        <div class="h-5 bg-gray-200 rounded-2 dark:bg-gray-700 w-48 mb-4 mt-10"></div>
+                        <div class="h-10 bg-gray-200 rounded-2 dark:bg-gray-700 mb-10"></div>
+                        <div class="h-5 bg-gray-200 rounded-2 dark:bg-gray-700 w-48 mb-4"></div>
+                        <div class="h-10 bg-gray-200 rounded-2 dark:bg-gray-700 mb-10"></div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+
+                </form>
+
+                <div id="ProApplicationFilesWrap" class="mb-10">
+                    <label for="ProApplicationFileUpload">{{ 'pro-application.form.file' | t }}</label>
+                    <div id="ProApplicationFiles" class="pro-application__files dropzone">
+                    </div>
+                </div>
+
+
+                <div class="pro-app__form-buttons">
+                    <button id="ProApplicationSubmit" class="button" disabled>
+                        <div class="text">{{ 'pro-application.form.send' | t }}</div>
+                        <div role="status" class="status" style="display:none;">
+                            <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-white" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                            </svg>
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </button>
+                </div>
+
+            </pro-application>
+        {% else %}
+            <div class="rte mb-4">
+                {{ block.settings.login-instructions }}
+            </div>
+
+            <pro-application-login>
+                <div id="RecoverPasswordForm" style="display: none;">
+
+                    {% form 'recover_customer_password', return_to: request.path %}
+
+                        {{ form.errors | default_errors }}
+
+                        <div class="pro-app__form-input-container">
+                            <label for="RecoverEmail" class="block">{{ 'customer.recover_password.email' | t }}</label>
+                            <input type="email" value="" name="email" class="block pro-app__input w-full {% if form.errors contains 'email' %}error{% endif %}" id="RecoverEmail" autocorrect="off" autocapitalize="off">
+                        </div>
+
+                        <p>{{ 'customer.recover_password.subtext' | t }}</p>
+
+                        <div class="pro-app__form-buttons">
+                            <input type="submit" class="button" value="{{ 'customer.recover_password.submit' | t }}">
+                            <a href="#" class="link account__form-secondary-btn">{{ 'customer.recover_password.cancel' | t }}</a>
+                        </div>
+
+                    {% endform %}
+                </div>
+                <div id="CustomerAccountCreateForm" style="display: none;">
+                    {% form 'create_customer', return_to: request.path %}
+
+                        {{ form.errors | default_errors }}
+
+                        <div class="pro-app__form-input-container flex gap-10">
+                            <div class="w-1/2">
+                                <label for="FirstName" class="hidden-label">{{ 'customer.register.first_name' | t }}</label>
+                                <input type="text" name="customer[first_name]" id="FirstName" class="block pro-app__input w-full" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus>
+                            </div>
+                            <div class="w-1/2">
+                                <label for="LastName" class="hidden-label">{{ 'customer.register.last_name' | t }}</label>
+                                <input type="text" name="customer[last_name]" id="LastName" class="block pro-app__input w-full" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
+                            </div>
+                        </div>
+
+                        <div class="pro-app__form-input-container">
+                            <label for="Email" class="hidden-label">{{ 'customer.register.email' | t }}</label>
+                            <input type="email" name="customer[email]" id="Email" class="block pro-app__input w-full {% if form.errors contains 'email' %}error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+                        </div>
+
+                        <div class="pro-app__form-input-container">
+                            <label for="CreatePassword" class="hidden-label">{{ 'customer.register.password' | t }}</label>
+                            <input type="password" name="customer[password]" id="CreatePassword" class="block pro-app__input w-full">
+                        </div>
+
+                        <div class="pro-app__form-buttons">
+                            <input type="submit" class="button" value="{{ 'customer.register.submit' | t }}">
+                            <a href="#login" class="link">{{ 'customer.register.cancel' | t }}</a>
+                        </div>
+
+                    {% endform %}
+                </div>
+                <div id="CustomerLoginForm" style="display: none;">
+
+                    {% form 'customer_login', return_to: request.path, class: "realative" %}
+
+                        <div class="pro-app__form-input-container">
+                            <label for="CustomerEmail" class="block">{{ 'customer.login.email' | t }}</label>
+                            <input type="email" name="customer[email]" id="CustomerEmail" class="block pro-app__input w-full {% if form.errors contains 'email' %}error{% endif %}" autocorrect="off" autocapitalize="off" autofocus>
+                            <input type="hidden" name="checkout_url" value="{{ request.path }}" />
+                        </div>
+
+                        {% if form.password_needed %}
+                            <div class="pro-app__form-input-container">
+                                <label for="CustomerPassword" class="block">{{ 'customer.login.password' | t }}</label>
+                                <input type="password" value="" name="customer[password]" id="CustomerPassword" class="block pro-app__input w-full {% if form.errors contains 'email' %}error{% endif %}">
+                                <a href="#reset" class="link">{{ 'customer.login.forgot_password' | t }}</a>
+                            </div>
+                        {% endif %}
+
+                        <div class="pro-app__form-buttons">
+                            <input type="submit" class="button" value="{{ 'customer.login.sign_in' | t }}">
+                            <a href="#create" class="link">{{ 'layout.customer.create_account' | t }}</a>
+                        </div>
+                    {% endform %}
+
+                </div>
+
+            </pro-application-login>
+
+        {% endif %}
+
+    </div>
+</pro-application-section>
+
+<template id="ProApplicationInputTextTemplate">
+    <div class="pro-app__form-input-container">
+        <label>{{ 'pro-application.form.email' | t }}</label>
+        <input type="text" autocorrect="off" autocapitalize="off" class="block pro-app__input w-full">
+    </div>
+</template>
+
+<template id="ProApplicationInputSelectTemplate">
+    <div class="pro-app__form-input-container">
+        <label>{{ 'pro-application.form.email' | t }}</label>
+        <select class="block pro-app__input w-full"></select>
+    </div>
+</template>
+
+{% schema %}
+{
+    "name": "Pro Application",
+    "class": "js-section__pro-application",
+    "target": "section",
+    "stylesheet": "main.bundle.css",
+    "javascript": "main.bundle.js",
+    "settings": [
+        {
+            "id": "heading",
+            "type": "text",
+            "label": "Heading",
+            "default": "Skwala Pro Application"
+        },
+        {
+            "id": "instructions",
+            "type": "richtext",
+            "label": "Instructions",
+            "default": "<p>Provide Instructions for the application.</p>"
+        },
+        {
+            "id": "login-instructions",
+            "type": "richtext",
+            "label": "Login Instructions",
+            "default": "<p>Please Login or create an account to fill out the pro applicaiton.</p>"
+        },
+        {
+            "id": "posted-successfully",
+            "type": "richtext",
+            "label": "Application Success Message",
+            "default": "<p>Thanks for your application to our Pro Program. We'll get back to you as soon as possible.</p>"
+        },
+        {
+            "type": "checkbox",
+            "id": "background",
+            "label": "Show background color",
+            "default": true
+        }
+    ]
+}
+{% endschema %}

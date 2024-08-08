@@ -1,0 +1,49 @@
+
+.pro-application {
+
+    --vip-radius: 3px;
+
+    @tailwind components;
+    @tailwind utilities;
+    @tailwind screens;
+
+    input:focus-visible{
+        outline: none;
+        box-shadow: none;
+    }
+
+    .pro-app__form-input-container{
+        margin-bottom: 1em;
+    }
+
+    .pro-app__input{
+        padding: .5em 1em;
+        border-radius: var(--vip-radius);
+        border: 1px solid currentColor;
+        font-size: var(--text-lg);
+    }
+
+    .pro-app__form-buttons{
+        display: flex;
+        justify-content: center;
+        gap: 1em;
+        align-items: center;
+    }
+
+    .button,
+    .pro-application__files{
+        border-radius: var(--vip-radius);
+    }
+
+    .button.loading .text{
+        display: none;
+    }
+    .button.loading .status{
+        display: block !important;
+    }
+
+    #ProApplicationInputsLoading div:empty{
+        display: block;
+    }
+
+}
