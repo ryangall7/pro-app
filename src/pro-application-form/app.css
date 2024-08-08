@@ -1,7 +1,7 @@
 
 .pro-application {
 
-    --vip-radius: 3px;
+    --pro-app-radius: 3px;
 
     @tailwind components;
     @tailwind utilities;
@@ -18,7 +18,7 @@
 
     .pro-app__input{
         padding: .5em 1em;
-        border-radius: var(--vip-radius);
+        border-radius: var(--pro-app-radius);
         border: 1px solid currentColor;
         font-size: var(--text-lg);
     }
@@ -32,7 +32,7 @@
 
     .button,
     .pro-application__files{
-        border-radius: var(--vip-radius);
+        border-radius: var(--pro-app-radius);
     }
 
     .button.loading .text{

@@ -1,0 +1,7 @@
+node_modules
+.DS_Store
+web/files
+web/database.sqlite
+extensions/*/assets/*.bundle.*
+
+.env
