@@ -165,7 +165,7 @@ export default function HomePage() {
 
   return (
     <Page fullWidth={!!proApplicationsMarkup}>
-      <TitleBar title="Skwala Pro App" />
+      <TitleBar title="Pro App" />
       <Layout>
         <Layout.Section>
           {proApplicationsMarkup}

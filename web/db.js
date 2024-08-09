@@ -3,21 +3,9 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 import dotenv from "dotenv";
 dotenv.config();
 
-const connectionUrl = `${
-    process.env.DATABASE_PROTOCOL ? process.env.DATABASE_PROTOCOL + "://" : "mongodb://"
-  }${
-    process.env.DATABASE_USERNAME
-      ? encodeURIComponent(process.env.DATABASE_USERNAME) + ":" + encodeURIComponent(process.env.DATABASE_PASSWORD) + "@"
-      : ""
-  }${process.env.DATABASE_HOSTNAME}/?${
-    process.env.DATABASE_SSL == "true" ? "tls=true&" : ""
-  }${
-    process.env.DATABASE_AUTHSOURCE
-      ? "authSource=" + process.env.DATABASE_AUTHSOURCE + "&"
-      : ""
-  }retryWrites=true&w=majority`;
+const connectionUrl = process.env.DATABASE_URL;
 
-const databaseName = process.env.DATABASE_DATABASE;
+const databaseName = process.env.DATABASE_NAME;
 console.log("connectionUrl", connectionUrl, databaseName);
 
 const client = new MongoClient(connectionUrl, {

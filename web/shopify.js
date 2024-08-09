@@ -8,14 +8,14 @@ import { restResources } from "@shopify/shopify-api/rest/admin/2023-04";
 import { MongoDBSessionStorage } from '@shopify/shopify-app-session-storage-mongodb';
 import { connectionUrl, databaseName } from "./db.js";
 
-const billingConfig = {
-    "Basic Plan": {
-      amount: 25.0,
-      currencyCode: 'USD',
-      interval: BillingInterval.Every30Days,
-      trialDays: 30
-    }
-  }
+// const billingConfig = {
+//     "Basic Plan": {
+//       amount: 25.0,
+//       currencyCode: 'USD',
+//       interval: BillingInterval.Every30Days,
+//       trialDays: 30
+//     }
+//   }
 
 // Initialize SQLite DB
 // ProApplicationDB.db = database;
@@ -24,7 +24,7 @@ const shopify = shopifyApp({
   api: {
     apiVersion: "2023-07",
     restResources,
-    billing: billingConfig // or replace with billingConfig above to enable example billing
+    //billing: billingConfig // or replace with billingConfig above to enable example billing
   },
   auth: {
     path: "/api/auth",
