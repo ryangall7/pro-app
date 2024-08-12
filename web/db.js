@@ -4,9 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const connectionUrl = process.env.DATABASE_URL;
-
 const databaseName = process.env.DATABASE_NAME;
-console.log("connectionUrl", connectionUrl, databaseName);
 
 const client = new MongoClient(connectionUrl, {
   serverApi: {

@@ -105,7 +105,7 @@ const setStoreMetafields = async (session) => {
                     key: field.key,
                     type: "single_line_text_field",
                     ownerType: "CUSTOMER",
-                    visibleToStorefrontApi: true
+                    //visibleToStorefrontApi: true
                 }
             }
             const created = await client.query({
@@ -144,7 +144,7 @@ const setStoreMetafields = async (session) => {
                             key: variables.definition.key,
                             description: variables.definition.description,
                             ownerType: variables.definition.ownerType,
-                            visibleToStorefrontApi: variables.definition.visibleToStorefrontApi
+                            //visibleToStorefrontApi: variables.definition.visibleToStorefrontApi
                         }
                     }
                 }

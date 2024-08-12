@@ -4,7 +4,7 @@ import { join } from "path";
 import { BillingInterval, BillingReplacementBehavior, LATEST_API_VERSION } from "@shopify/shopify-api";
 import { shopifyApp } from "@shopify/shopify-app-express";
 //import { SQLiteSessionStorage } from "@shopify/shopify-app-session-storage-sqlite";
-import { restResources } from "@shopify/shopify-api/rest/admin/2023-04";
+import { restResources } from "@shopify/shopify-api/rest/admin/2023-10";
 import { MongoDBSessionStorage } from '@shopify/shopify-app-session-storage-mongodb';
 import { connectionUrl, databaseName } from "./db.js";
 
@@ -20,9 +20,12 @@ import { connectionUrl, databaseName } from "./db.js";
 // Initialize SQLite DB
 // ProApplicationDB.db = database;
 // ProApplicationDB.init();
+// console.log("app url:", process.env);
+
 const shopify = shopifyApp({
   api: {
-    apiVersion: "2023-07",
+    host: process.env.APP_URL,
+    apiVersion: "2024-07",
     restResources,
     //billing: billingConfig // or replace with billingConfig above to enable example billing
   },

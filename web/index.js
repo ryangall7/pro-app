@@ -30,27 +30,28 @@ app.get(shopify.config.auth.path, shopify.auth.begin());
 app.get(
   shopify.config.auth.callbackPath,
   shopify.auth.callback(),
-  async (req, res, next) => {
+  // async (req, res, next) => {
 
-    const session = res.locals.shopify.session;
-    const hasPayment = await shopify.api.billing.check({
-      session,
-      plans: ['Basic Plan'],
-      isTest: true,
-    });
+  //   const session = res.locals.shopify.session;
+  //   const hasPayment = true;
+  //   const hasPayment = await shopify.api.billing.check({
+  //     session,
+  //     plans: ['Basic Plan'],
+  //     isTest: true,
+  //   });
 
-    if (hasPayment) {
-      next();
-    } else {
-      res.redirect(
-        await shopify.api.billing.request({
-          session,
-          plan: 'Basic Plan',
-          isTest: true,
-        }),
-      );
-    }
-  },
+  //   if (hasPayment) {
+  //     next();
+  //   } else {
+  //     res.redirect(
+  //       await shopify.api.billing.request({
+  //         session,
+  //         plan: 'Basic Plan',
+  //         isTest: true,
+  //       }),
+  //     );
+  //   }
+  // },
   shopify.redirectToShopifyOrAppRoot()
 );
 app.post(

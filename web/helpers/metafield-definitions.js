@@ -14,7 +14,7 @@ export const dateApplied = {
         "description": `[${metafieldVersion}] The date customer applied to become a pro.`,
         "type": "date_time",
         "ownerType": "CUSTOMER",
-        "visibleToStorefrontApi": true
+       //"visibleToStorefrontApi": true
     }
 }
 
@@ -26,7 +26,7 @@ export const dateApproved = {
         "description": `[${metafieldVersion}] The date customer approved as a pro.`,
         "type": "date_time",
         "ownerType": "CUSTOMER",
-        "visibleToStorefrontApi": true
+        //"visibleToStorefrontApi": true
     }
 }
 
@@ -38,7 +38,7 @@ export const files = {
         "description": `[${metafieldVersion}] The files for proof of employment.`,
         "type": "list.file_reference",
         "ownerType": "CUSTOMER",
-        "visibleToStorefrontApi": true
+        //"visibleToStorefrontApi": true
     }
 }
 
